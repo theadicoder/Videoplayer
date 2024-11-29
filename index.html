@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Video Upload - Suggested Videos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://fast.wistia.com/player.js" async></script>
+    <script src="https://fast.wistia.com/embed/w5y6tbc1ju.js" async type="module"></script>
     <style>
         /* Custom styles for the sliding panel */
         #adminLoginPanel {
@@ -28,115 +29,95 @@
             height: 100%;
             position: relative;
         }
+
+        wistia-player[media-id='w5y6tbc1ju']:not(:defined) {
+            background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w5y6tbc1ju/swatch');
+            display: block;
+            filter: blur(5px);
+            padding-top: 56.25%;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Flex Container for Video Player and Suggested Videos -->
-    <div class="flex flex-col lg:flex-row lg:items-start gap-6">
-        <!-- Video Player Section -->
-        <div class="flex-1 bg-white rounded-lg shadow-lg p-4 sm:p-6">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800" id="videoTitle">Course Video: Introduction to Art</h2>
-                    <p class="text-sm text-gray-500 mt-1">Course > Module 1 > Introduction</p>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Flex Container for Video Player and Suggested Videos -->
+        <div class="flex flex-col lg:flex-row lg:items-start gap-6">
+            <!-- Video Player Section (Removed Video Embed) -->
+            <div class="flex-1 bg-white rounded-lg shadow-lg p-4 sm:p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800" id="videoTitle">Course Video: Introduction to Art</h2>
+                        <p class="text-sm text-gray-500 mt-1">Course > Module 1 > Introduction</p>
+                    </div>
+                    <div>
+                        <span class="text-sm font-medium text-gray-600">Progress: </span>
+                        <span class="text-green-500 font-semibold" id="currentPercentage">0%</span>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-sm font-medium text-gray-600">Progress: </span>
-                    <span class="text-green-500 font-semibold" id="currentPercentage">0%</span>
+    
+                <!-- Removed Wistia Video Embed -->
+                <!-- <div id="wistiaPlayer" class="wistia_embed"> -->
+                    <!-- Wistia embed code will be injected here via JavaScript -->
+                <!-- </div> -->
+    
+                <div class="flex flex-wrap justify-between items-center">
+                    <div class="flex space-x-4 mb-2">
+                        <button id="previousTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
+                            <i class="fas fa-chevron-left mr-2"></i> Previous
+                        </button>
+                        <button id="nextTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
+                            <i class="fas fa-closed-captioning mr-2"></i> CC
+                        </button>
+                        <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
+                            <i class="fas fa-expand mr-2"></i> Fullscreen
+                        </button>
+                        <select id="playbackSpeed" class="bg-gray-200 text-sm rounded-lg px-3 py-2 hover:bg-gray-300">
+                            <option value="0.5">0.5x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-
-            <!-- Wistia Video Embed -->
-            <div id="wistiaPlayer" class="wistia_embed">
-                <!-- Wistia embed code will be injected here via JavaScript -->
+    
+            <!-- Suggested Videos Section -->
+            <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-4 sm:p-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Suggested Videos</h3>
+                <ul id="suggestedVideos" class="space-y-4">
+                    <!-- Example Suggested Video -->
+                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
+                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-gray-800">Introduction to Drawing Basics</h4>
+                            <p class="text-xs text-gray-500">Learn the fundamentals of drawing in this introductory video.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
+                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-gray-800">Shading Techniques for Beginners</h4>
+                            <p class="text-xs text-gray-500">Master the basics of shading and give depth to your art.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
+                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-gray-800">Understanding Light and Shadow</h4>
+                            <p class="text-xs text-gray-500">Explore how light and shadow can transform your drawings.</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-
-            <div class="flex flex-wrap justify-between items-center">
-                <div class="flex space-x-4 mb-2">
-                    <button id="previousTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
-                        <i class="fas fa-chevron-left mr-2"></i> Previous
-                    </button>
-                    <button id="nextTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
-                        Next <i class="fas fa-chevron-right ml-2"></i>
-                    </button>
-                </div>
-                <div class="flex space-x-4">
-                    <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-                        <i class="fas fa-closed-captioning mr-2"></i> CC
-                    </button>
-                    <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-                        <i class="fas fa-expand mr-2"></i> Fullscreen
-                    </button>
-                    <select id="playbackSpeed" class="bg-gray-200 text-sm rounded-lg px-3 py-2 hover:bg-gray-300">
-                        <option value="0.5">0.5x</option>
-                        <option value="1" selected>1x</option>
-                        <option value="1.5">1.5x</option>
-                        <option value="2">2x</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Suggested Videos Section -->
-        <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-4 sm:p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Suggested Videos</h3>
-            <ul id="suggestedVideos" class="space-y-4">
-                <!-- Example Suggested Video -->
-                <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                    <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                    <div class="flex-1">
-                        <h4 class="text-sm font-semibold text-gray-800">Introduction to Drawing Basics</h4>
-                        <p class="text-xs text-gray-500">Learn the fundamentals of drawing in this introductory video.</p>
-                    </div>
-                </li>
-                <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                    <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                    <div class="flex-1">
-                        <h4 class="text-sm font-semibold text-gray-800">Shading Techniques for Beginners</h4>
-                        <p class="text-xs text-gray-500">Master the basics of shading and give depth to your art.</p>
-                    </div>
-                </li>
-                <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                    <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                    <div class="flex-1">
-                        <h4 class="text-sm font-semibold text-gray-800">Understanding Light and Shadow</h4>
-                        <p class="text-xs text-gray-500">Explore how light and shadow can transform your drawings.</p>
-                    </div>
-                </li>
-            </ul>
         </div>
     </div>
-</div>
-
-<script>
-    // Add Wistia Embed Code Dynamically
-    const videoId = 'your-wistia-video-id'; // Replace this with the actual Wistia video ID
-    const wistiaEmbedCode = `
-        <iframe src="https://fast.wistia.net/embed/iframe/${videoId}?videoFoam=true" 
-                class="wistia_embed" 
-                name="wistia_embed" 
-                allow="autoplay; fullscreen" 
-                frameborder="0" 
-                scrolling="no" 
-                width="100%" height="400">
-        </iframe>
-    `;
-    document.getElementById('wistiaPlayer').innerHTML = wistiaEmbedCode;
-
-    // Handle Admin Video Upload and Display on Suggested Videos List
-    document.getElementById('videoUploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const videoTitle = document.getElementById('videoTitleInput').value;
-        const videoDescription = document.getElementById('videoDescriptionInput').value;
-
-        document.getElementById('uploadedVideoTitle').textContent = videoTitle;
-        document.getElementById('uploadedVideoDescription').textContent = videoDescription;
-        document.getElementById('adminUploadedVideo').classList.remove('hidden');
-    });
-</script>
+    <script src="https://cdn.tailwindcss.com"></script>    
 
 </body>
 </html>
