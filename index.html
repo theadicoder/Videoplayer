@@ -4,120 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Video Upload - Suggested Videos</title>
-    <script src="https://fast.wistia.com/player.js" async></script>
-    <script src="https://fast.wistia.com/embed/w5y6tbc1ju.js" async type="module"></script>
+
+    <!-- Wistia Player Script -->
+    <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* Custom styles for the sliding panel */
-        #adminLoginPanel {
-            position: fixed;
-            top: 0;
-            right: -100%; /* Initially off-screen */
-            width: 300px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -4px 0px 15px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            transition: right 0.3s ease;
-        }
-
-        #adminPanelContent {
-            display: none;
-        }
-
         .wistia_embed {
             width: 100%;
-            height: 100%;
-            position: relative;
+            height: 360px;
         }
 
-        wistia-player[media-id='w5y6tbc1ju']:not(:defined) {
-            background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w5y6tbc1ju/swatch');
-            display: block;
-            filter: blur(5px);
-            padding-top: 56.25%;
+        /* Glow effect for live video */
+        .wistia_embed.live-video {
+            box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.8);
+            border: 2px solid red;
+            background-color: rgba(255, 0, 0, 0.1);
         }
     </style>
 </head>
 <body class="bg-gray-100">
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Flex Container for Video Player and Suggested Videos -->
-        <div class="flex flex-col lg:flex-row lg:items-start gap-6">
-            <!-- Video Player Section (Removed Video Embed) -->
-            <div class="flex-1 bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800" id="videoTitle">Course Video: Introduction to Art</h2>
-                        <p class="text-sm text-gray-500 mt-1">Course > Module 1 > Introduction</p>
-                    </div>
-                    <div>
-                        <span class="text-sm font-medium text-gray-600">Progress: </span>
-                        <span class="text-green-500 font-semibold" id="currentPercentage">0%</span>
-                    </div>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row lg:items-start gap-6">
+        <!-- Video Player Section -->
+        <div class="flex-1 bg-white rounded-lg shadow-lg p-6">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 id="videoTitle" class="text-2xl font-bold text-gray-800">
+                        Course Video: Introduction to Art
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1">Course > Module 1 > Introduction</p>
                 </div>
-    
-                <!-- Removed Wistia Video Embed -->
-                <!-- <div id="wistiaPlayer" class="wistia_embed"> -->
-                    <!-- Wistia embed code will be injected here via JavaScript -->
-                <!-- </div> -->
-    
-                <div class="flex flex-wrap justify-between items-center">
-                    <div class="flex space-x-4 mb-2">
-                        <button id="previousTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
-                            <i class="fas fa-chevron-left mr-2"></i> Previous
-                        </button>
-                        <button id="nextTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center">
-                            Next <i class="fas fa-chevron-right ml-2"></i>
-                        </button>
-                    </div>
-                    <div class="flex space-x-4">
-                        <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-                            <i class="fas fa-closed-captioning mr-2"></i> CC
-                        </button>
-                        <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-                            <i class="fas fa-expand mr-2"></i> Fullscreen
-                        </button>
-                        <select id="playbackSpeed" class="bg-gray-200 text-sm rounded-lg px-3 py-2 hover:bg-gray-300">
-                            <option value="0.5">0.5x</option>
-                            <option value="1" selected>1x</option>
-                            <option value="1.5">1.5x</option>
-                            <option value="2">2x</option>
-                        </select>
-                    </div>
+                <div>
+                    <span class="text-sm font-medium text-gray-600">Progress: </span>
+                    <span id="currentPercentage" class="text-green-500 font-semibold">0%</span>
                 </div>
             </div>
-    
-            <!-- Suggested Videos Section -->
-            <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-4 sm:p-6">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">Suggested Videos</h3>
-                <ul id="suggestedVideos" class="space-y-4">
-                    <!-- Example Suggested Video -->
-                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-gray-800">Introduction to Drawing Basics</h4>
-                            <p class="text-xs text-gray-500">Learn the fundamentals of drawing in this introductory video.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-gray-800">Shading Techniques for Beginners</h4>
-                            <p class="text-xs text-gray-500">Master the basics of shading and give depth to your art.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4 hover:bg-gray-100 p-3 rounded-lg transition">
-                        <img src="https://via.placeholder.com/120x70" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
-                        <div class="flex-1">
-                            <h4 class="text-sm font-semibold text-gray-800">Understanding Light and Shadow</h4>
-                            <p class="text-xs text-gray-500">Explore how light and shadow can transform your drawings.</p>
-                        </div>
-                    </li>
-                </ul>
+
+            <!-- Main Video Player -->
+            <div id="wistiaPlayer" class="wistia_embed"></div>
+
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex space-x-4">
+                    <button id="previousTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button id="nextTutorial" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
+
+        <!-- Suggested Videos Section -->
+        <div class="w-full lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Suggested Videos</h3>
+            <ul id="suggestedVideos" class="space-y-4"></ul>
+        </div>
     </div>
-    <script src="https://cdn.tailwindcss.com"></script>    
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const API_KEY = '00050b2cb9cd69ab2c879dc0442eaaa447088fbbed66585ac837478df5e0cc92';
+        const videoContainer = document.getElementById('wistiaPlayer');
+        const suggestedVideosList = document.getElementById('suggestedVideos');
+        const videoTitle = document.getElementById('videoTitle');
+        const previousButton = document.getElementById('previousTutorial');
+        const nextButton = document.getElementById('nextTutorial');
+
+        let videos = [];
+        let currentVideoIndex = 0;
+
+        // Fetch videos from Wistia API
+        async function fetchVideos() {
+            try {
+                const response = await fetch('https://api.wistia.com/v1/medias.json', {
+                    headers: { 'Authorization': `Bearer ${API_KEY}` }
+                });
+                if (!response.ok) throw new Error('Failed to fetch videos.');
+
+                videos = await response.json();
+                if (videos.length > 0) {
+                    displayMainVideo(videos[0]);
+                    displaySuggestedVideos(videos);
+                } else {
+                    videoTitle.textContent = 'No videos available.';
+                }
+            } catch (error) {
+                console.error('Error fetching videos:', error);
+                videoTitle.textContent = 'Error loading videos.';
+            }
+        }
+
+        // Display the main video in the player
+        function displayMainVideo(video) {
+            videoContainer.innerHTML = `<div class="wistia_embed wistia_async_${video.hashed_id}"></div>`;
+            videoTitle.textContent = video.name;
+
+            // Check if the video is live
+            if (video.state === 'live') {
+                videoContainer.classList.add('live-video');  // Apply the glowing effect
+                alert("This is a live video event!");
+            } else {
+                videoContainer.classList.remove('live-video');  // Remove glow for non-live videos
+            }
+
+            window._wq = window._wq || [];
+            _wq.push({
+                id: video.hashed_id,
+                onReady: (player) => {
+                    player.bind('timechange', () => {
+                        const progress = ((player.time() / player.duration()) * 100).toFixed(0);
+                        document.getElementById('currentPercentage').textContent = `${progress}%`;
+                    });
+                }
+            });
+        }
+
+        // Display suggested videos list
+        function displaySuggestedVideos(videos) {
+            suggestedVideosList.innerHTML = '';
+            videos.forEach((video, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex gap-4 p-3 rounded-lg hover:bg-gray-100 transition';
+                listItem.innerHTML = `
+                    <img src="${video.thumbnail.url}" alt="Thumbnail" class="w-32 h-20 object-cover rounded-md">
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-800">${video.name}</h4>
+                        <p class="text-xs text-gray-500">${video.description || 'No description available'}</p>
+                    </div>
+                `;
+                listItem.addEventListener('click', () => {
+                    currentVideoIndex = index;
+                    displayMainVideo(video);
+                });
+                suggestedVideosList.appendChild(listItem);
+            });
+        }
+
+        // Navigate to the previous video
+        previousButton.addEventListener('click', () => {
+            if (currentVideoIndex > 0) {
+                currentVideoIndex--;
+                displayMainVideo(videos[currentVideoIndex]);
+            }
+        });
+
+        // Navigate to the next video
+        nextButton.addEventListener('click', () => {
+            if (currentVideoIndex < videos.length - 1) {
+                currentVideoIndex++;
+                displayMainVideo(videos[currentVideoIndex]);
+            }
+        });
+
+        fetchVideos();
+    });
+</script>
 
 </body>
 </html>
